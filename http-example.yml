@@ -1,0 +1,24 @@
+---
+name: Basic Async HTTP Request Proxy
+vars:
+  outgoing_url: https://bucketmq-examples.herokuapp.com/1oaoag11
+
+funnels:
+  - http:
+      method: post
+      register: request
+
+steps:
+  - name: Send request to outgoing url
+    http:
+      method: "{{request.method}}"
+      headers:
+        content_type: "{{request.headers.content_type}}"
+      body: "{{request.body}}"
+      url: "{{outgoing_url}}"
+      register: response
+
+  - name: Log the response status & body
+    log: "{{response.status}} - {{response.body}}"
+
+
